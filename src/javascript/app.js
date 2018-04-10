@@ -1,5 +1,5 @@
-(function () {
+import * as ticTacToe from './tictactoe';
 
-    window.TicTacToe.init();
+ticTacToe.init(3);
 
-})();
+ticTacToe.getBoard()[0][1].setValue('X');

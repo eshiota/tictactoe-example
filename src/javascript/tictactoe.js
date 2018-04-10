@@ -1,32 +1,37 @@
-(function () {
+import Unit from './tictactoe/unit';
 
-    var board = [];
-    var boardSize = 3;
+let board = [];
+let boardSize;
 
-    function init () {
-        for (var i = 0; i < boardSize; i++) {
-            board[i] = [];
+function init (boardSize) {
+    let boardTemplate = [];
+    let appNode = document.querySelector('#app');
+    let boardNode = document.createElement('div');
 
-            for (var j = 0; j < boardSize; j++) {
-                board[i][j] = 0;
-            }
+    boardNode.setAttribute('id', 'board');
+
+    for (var i = 0; i < boardSize; i++) {
+        board[i] = [];
+
+        let boardRowNode = document.createElement('div');
+        boardRowNode.classList.add('board-row');
+
+        boardNode.appendChild(boardRowNode);
+
+        for (var j = 0; j < boardSize; j++) {
+            let unitInstance = new Unit({ x: i, y: j });
+
+            board[i][j] = unitInstance;
+
+            boardRowNode.appendChild(unitInstance.getNode());
         }
     }
 
-    function setBoardPositionValue (x, y, value) {
-        board[x][y] = value;
-    }
+    appNode.appendChild(boardNode);
+}
 
-    function getBoard() {
-        return board;
-    }
+function getBoard() {
+    return board;
+}
 
-    window.TicTacToe = window.TicTacToe ? window.TicTacToe : {};
-
-    Object.assign(window.TicTacToe, {
-        init: init,
-        setBoardPositionValue: setBoardPositionValue,
-        getBoard: getBoard
-    });
-
-})();
+export { init, getBoard };

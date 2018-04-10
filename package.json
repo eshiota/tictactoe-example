@@ -1,0 +1,11 @@
+{
+  "name": "tictactoe-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:eshiota/tictactoe-example.git",
+  "author": "Eduardo Shiota Yasuda <eduardo.shiota@booking.com>",
+  "license": "MIT",
+  "dependencies": {
+    "parcel-bundler": "^1.7.0"
+  }
+}

@@ -3,5 +3,5 @@
 WIP for educational purposes.
 
 - `yarn install`
-- `npx parcel src/index.html`
+- `yarn parcel src/index.html`
 - Visit `localhost:1234`

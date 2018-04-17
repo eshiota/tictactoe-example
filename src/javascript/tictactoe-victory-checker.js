@@ -1,100 +1,71 @@
-function checkVictoryConditions (board) {
-    return checkRowsVictoryConditions(board) ||
-           checkColumnsVictoryConditions(board) ||
-           checkDiagonalsVictoryConditions(board);
+let boardInfo = {};
+let boardLength;
+
+// [
+//     [0, 0, 0, 0, 0],
+//     [0, 0, 1, 0, 0],
+//     [2, 0, 0, 0, 0],
+//     [2, 0, 0, 0, 0],
+//     [2, 0, 0, 0, 0]
+// ]
+
+// 4 + 0 = boardLength - 1
+// 3 + 1
+// 2 + 2
+// 1 + 3
+// 0 + 4
+
+// boardInfo.l1 += 1;
+// boardInfo.c2 += 1;
+
+// boardInfo.l2 -= 1;
+// boardInfo.c0 -= 1;
+// boardInfo.d1 -= 1;
+
+function setBoardLength (length) {
+    if (boardLength) {
+        console.warn('Overriding board length');
+    }
+
+    boardLength = length;
 }
 
-function checkRowsVictoryConditions(board) {
-    let boardSize = board.length;
+function hasWinner (x, y, value) {
+    if (!boardLength) {
+        console.error('Board length is not set');
+        return;
+    }
 
-    for (var i = 0; i < boardSize; i++) {
-        let result = checkLineVictoryCondition(board[i]);
+    // store correspondent line information
+    if (value === 1) {
+        boardInfo[`l{$x}`] += 1;
+    } else {
+        boardInfo[`l{$x}`] -= 1;
+    }
 
-        if (result > 0) {
-            return result;
+    // store correspondent column information
+    if (value === 1) {
+        boardInfo[`c{$y}`] += 1;
+    } else {
+        boardInfo[`c{$y}`] -= 1;
+    }
+
+    // store correspondent diagonal information
+    if (x === y) {
+        if (value === 1) {
+            boardInfo[`d1`] += 1;
+        } else {
+            boardInfo[`d1`] -= 1;
         }
     }
 
-    return 0;
-}
-
-function checkColumnsVictoryConditions(board) {
-    let boardSize = board.length;
-
-    for (var j = 0; j < boardSize; j++) {
-        let myColumn = [];
-
-        for (var i = 0; i < boardSize; i++) {
-            myColumn.push(board[i][j]);
-        }
-
-        let result = checkLineVictoryCondition(myColumn);
-
-        if (result > 0) {
-            return result;
+    if (x + y === boardLength - 1) {
+        if (value === 1) {
+            boardInfo[`d2`] += 1;
+        } else {
+            boardInfo[`d2`] -= 1;
         }
     }
-
-    return 0;
 }
 
-function checkDiagonalsVictoryConditions(board) {
-    let boardSize = board.length;
-    let myDiagonal = [];
-
-    for (var i = 0; i < boardSize; i++) {
-        myDiagonal.push(board[i][i]);
-    }
-
-    let result = checkLineVictoryCondition(myDiagonal);
-
-    if (result > 0) {
-        return result;
-    }
-
-    myDiagonal = [];
-
-    for (var i = 0, j = boardSize - 1; i < boardSize; i++) {
-        myDiagonal.push(board[i][j]);
-        j--;
-    }
-
-    result = checkLineVictoryCondition(myDiagonal);
-
-    if (result > 0) {
-        return result;
-    }
-
-    return 0;
-}
-
-/**
- * Returns the winning number, or 0 if there's no winner
- *
- * @param {Array} line - An array of Numbers
- *
- * @return {Number} - 0 or the winning Number
- */
-function checkLineVictoryCondition(line) {
-    let value = 0;
-
-    console.log(line);
-
-    for (var i = 0; i < line.length; i++) {
-        value = line[i];
-
-        if (value === 0) {
-            return 0;
-        }
-
-        if (i > 0 && value !== line[i - 1]) {
-            return 0;
-        }
-    }
-
-    return value;
-}
-
-export default {
-    checkVictoryConditions: checkVictoryConditions
-};
+export default { setBoardLength, hasWinner }

@@ -17,7 +17,14 @@ class Unit {
     }
 
     setValue(value) {
-        this._node.innerText = value;
+        if (this._value) {
+            return;
+        }
+
+        this._node.innerText = value === 1 ? 'x' : 'o';
+        this._node.disabled = true;
+
+        this._value = value;
     }
 }
 

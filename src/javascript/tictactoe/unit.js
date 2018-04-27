@@ -16,13 +16,17 @@ class Unit {
         return this._node;
     }
 
+    disable() {
+        this._node.disabled = true;
+    }
+
     setValue(value) {
         if (this._value) {
             return;
         }
 
         this._node.innerText = value === 1 ? 'x' : 'o';
-        this._node.disabled = true;
+        this.disable();
 
         this._value = value;
     }

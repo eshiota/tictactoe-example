@@ -7,27 +7,31 @@ let board = [];
 let boardLength;
 let turn = 1;
 
-let controlsTemplate = `
-    <label class="controls-size hidden">
-        Board size:
-        <input type="number" class="controls-size-input" />
-    </label>
-    <button class="controls-play-again-bt hidden">Play again</button>
+let appTemplate = `
+    <h1 class="title">Tic Tac Toe</h1>
+
+    <div id="board"></div>
+
+    <div class="controls">
+        <label class="controls-size hidden">
+            Board size:
+            <input type="number" class="controls-size-input" />
+        </label>
+        <button class="controls-play-again-bt hidden">Play again</button>
+    </div>
 `;
 
 function init (length) {
     let boardTemplate = [];
-    let boardNode = document.createElement('div');
-    let controlsNode = document.createElement('div');
 
     boardLength = length;
     turn = 1;
 
-    appNode.innerHTML = '';
+    appNode.innerHTML = appTemplate;
 
-    controlsNode.innerHTML = controlsTemplate;
+    let boardNode = document.querySelector('#board');
+    let controlsNode = document.querySelector('.controls');
 
-    boardNode.setAttribute('id', 'board');
     boardNode.addEventListener('click', onDelegatedButtonClick);
 
     for (var i = 0; i < boardLength; i++) {
@@ -47,23 +51,24 @@ function init (length) {
         }
     }
 
-    appNode.appendChild(boardNode);
-    appNode.appendChild(controlsNode);
-
     appNode.querySelector('.controls-play-again-bt').addEventListener('click', onPlayAgainButtonClick);
 
     victoryChecker.setBoardLength(boardLength);
+
+    renderTurn(turn);
 }
 
 function getBoard () {
     return board;
 }
 
-function renderGameOver (turn) {
-    setTimeout(() => {
-        alert(`Player ${turn} wins!`);
-    }, 50);
+function renderTurn (turn) {
+    appNode.querySelector('#board').classList.remove('player1', 'player2');
+    appNode.querySelector('#board').classList.add(`player${turn}`);
+}
 
+function renderGameOver (turn) {
+    appNode.querySelector('.title').innerText = `Player ${turn} wins!`;
     appNode.querySelector('.controls-play-again-bt').classList.remove('hidden');
     appNode.querySelector('.controls-size').classList.remove('hidden');
 
@@ -87,6 +92,8 @@ function onDelegatedButtonClick (evt) {
         }
 
         turn = turn === 1 ? 2 : 1;
+
+        renderTurn(turn);
     }
 }
 
